@@ -24,6 +24,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -132,7 +133,22 @@ public class EditUser extends AppCompatActivity implements View.OnClickListener 
         if (view == update) {
             if (isFieldEmpty(username) && (isFieldEmpty(password)) && (isFieldEmpty(phone)) && (isFieldEmpty(email))) {
                 if (isEmailValid(email)) {
-                    updateUser();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(EditUser.this);
+                    builder.setMessage("You sure to update account?")
+                            .setCancelable(false)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    updateUser();
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+
                 }
 
             }
@@ -159,17 +175,21 @@ public class EditUser extends AppCompatActivity implements View.OnClickListener 
     }
 
     public void deleteUser() {
-        final String usernameValue = SharedPref.getmIntances(this).getUserName();
-        progressDialog.setMessage("Deleting Account");
+        final Integer idValue = SharedPref.getmIntances(this).getUSerID();
+
+
+
+        progressDialog.setMessage("Deleting, please wait..");
         progressDialog.show();
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 Constants.URL_DELETE, new Response.Listener<String>() {
-
             @Override
-            public void onResponse(String s) {
+            public void onResponse(String response) {
                 progressDialog.dismiss();
+
                 try {
-                    JSONObject jsonObject = new JSONObject(s);
+                    JSONObject jsonObject = new JSONObject(response);
                     Toast.makeText(getApplicationContext(), jsonObject.getString("message"), Toast.LENGTH_LONG).show();
                     if(!jsonObject.getBoolean("error")){
                         startActivity(new Intent(EditUser.this, LoginActivity.class));
@@ -179,23 +199,25 @@ public class EditUser extends AppCompatActivity implements View.OnClickListener 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError volleyError) {
+            public void onErrorResponse(VolleyError error) {
                 progressDialog.hide();
-                Toast.makeText(getApplicationContext(), volleyError.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+
+
             }
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-               params.put("username", usernameValue);
-                return getParams();
+                params.put("id", String.valueOf(idValue));
+                return params;
             }
         };
         Singleton.getInstance(this).addToRequestQueue(stringRequest);
+
     }
 
 
@@ -223,7 +245,8 @@ public class EditUser extends AppCompatActivity implements View.OnClickListener 
                     JSONObject jsonObject = new JSONObject(response);
                     Toast.makeText(getApplicationContext(), jsonObject.getString("message"), Toast.LENGTH_LONG).show();
                     if(!jsonObject.getBoolean("error")){
-                        startActivity(new Intent(EditUser.this, HomeActivity.class));
+                        startActivity(new Intent(EditUser.this, LoginActivity.class));
+                        Toast.makeText(context, "Please login with new credentials", Toast.LENGTH_SHORT).show();
                         finish();
                     }
 
@@ -254,6 +277,7 @@ public class EditUser extends AppCompatActivity implements View.OnClickListener 
 
 
             }
+
         };
 
         Singleton.getInstance(this).addToRequestQueue(stringRequest);

@@ -20,18 +20,19 @@
             android:id="@+id/log_out"
             android:icon="@drawable/ic_menu_manage"
             android:title="Log Out" />
+        <!--<item-->
+            <!--android:id="@+id/delete"-->
+            <!--android:icon="@drawable/ic_menu_share"-->
+            <!--android:title="Delete this account" />-->
+
     </group>
 
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
+                android:id="@+id/contact"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:title="Contact us" />
         </menu>
     </item>
 

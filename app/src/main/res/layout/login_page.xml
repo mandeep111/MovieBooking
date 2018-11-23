@@ -13,14 +13,17 @@
     tools:context=".LoginActivity">
 
     <LinearLayout android:orientation="vertical"
-        android:layout_margin="10dp"
+
         android:layout_width="match_parent"
-        android:layout_height="240dp">
+        android:layout_height="240dp"
+        android:background="#d7c6c6"
+        >
 
         <ViewFlipper
             android:id="@+id/viewflipper"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_margin="5dp">
 
         </ViewFlipper>
     </LinearLayout>
