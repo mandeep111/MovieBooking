@@ -5,11 +5,15 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
+import android.view.KeyEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,7 +23,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,27 +35,37 @@ public class HomeActivity extends AppCompatActivity
         TextView username1;
         WebView webView;
         EditUser editUser;
-        Uri uri;
+        ProgressBar progressBar;
+//        Uri uri;
+        ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-//        webView = (WebView) findViewById(R.id.webview);
-//        webView.loadUrl("http://neplab.com/");
 
-
-
+        progressBar = findViewById(R.id.progressbar);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        webView = (WebView) findViewById(R.id.webview);
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webView.getSettings().setBuiltInZoomControls(false);
+        webView.getSettings().setSupportZoom(false);
+        webView.setWebViewClient(new WebViewClient());
+        webView.loadUrl("http://www.qfxcinemas.com/");
+        webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onPageFinished(WebView webView, String url) {
+                super.onPageFinished(webView, url);
+                progressBar.setVisibility(webView.GONE);
+            }
+            @Override
+            public void onPageStarted(WebView webView, String url, Bitmap favicon) {
+                super.onPageStarted(webView, url, favicon);
+                progressBar.setVisibility(webView.VISIBLE);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+            }
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -62,13 +79,23 @@ public class HomeActivity extends AppCompatActivity
         username1.setText(SharedPref.getmIntances(this).getUserName());
 
     }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if ((keyCode == KeyEvent.KEYCODE_BACK) && webView.canGoBack()) {
+            webView.goBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        }
+        else {
 //            super.onBackPressed();
             AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
             builder.setTitle(R.string.app_name);
@@ -89,46 +116,6 @@ public class HomeActivity extends AppCompatActivity
             alert.show();
         }
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.home, menu);
-//        return true;
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.logout:
-//                getSharedPreferences("remember", Context.MODE_PRIVATE).edit()
-//                        .putBoolean("remember_me", false).apply();
-//                startActivity(new Intent(this, LoginActivity.class));
-//                finish();
-//                break;
-//        }
-//        return true;
-//    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
