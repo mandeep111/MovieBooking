@@ -36,9 +36,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     Button login;
     CheckBox remember_me;
     ViewFlipper viewFlipper;
-    TextView register_here;
+    TextView register_here, forget;
     ProgressDialog progressDialog;
     SharedPreferences preferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +58,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         password = findViewById(R.id.password);
         login = findViewById(R.id.login);
         remember_me = findViewById(R.id.remember_me);
+        forget= findViewById(R.id.forget);
         register_here = findViewById(R.id.register_here);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait...");
 
         login.setOnClickListener(this);
         register_here.setOnClickListener(this);
+        forget.setOnClickListener(this);
 
         int images[] = {R.drawable.cinema, R.drawable.cinema1, R.drawable.cinema2};
         viewFlipper = findViewById(R.id.viewflipper);
@@ -116,6 +119,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (view == register_here) {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
+        }
+
+        if(view == forget) {
+            startActivity(new Intent(LoginActivity.this, UpdatePassword.class));
+            finish();
         }
     }
 

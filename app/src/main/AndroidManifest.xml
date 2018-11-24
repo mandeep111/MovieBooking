@@ -28,7 +28,8 @@
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".EditUser"></activity>
+        <activity android:name=".EditUser" />
+        <activity android:name=".UpdatePassword"></activity>
     </application>
 
 </manifest>

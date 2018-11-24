@@ -75,13 +75,14 @@
                 android:hint="password"
                 android:inputType="textPassword" />
         </RelativeLayout>
-        <CheckBox
-            android:id="@+id/remember_me"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="8dp"
-            android:text="          Remember me"/>
+           <CheckBox
+               android:id="@+id/remember_me"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="10dp"
+               android:layout_marginLeft="8dp"
+               android:text="          Remember me"/>
+
         <Button
             android:id="@+id/login"
             android:layout_width="match_parent"
@@ -93,11 +94,27 @@
             android:layout_marginTop="10dp"/>
 
         <TextView
+            android:id="@+id/forget"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/forgot_password"
+            android:layout_marginTop="10dp"
+          />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="OR"
+            android:gravity="center"
+            android:layout_marginTop="10dp"/>
+        <TextView
             android:id="@+id/register_here"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/register_here"
             android:layout_marginTop="10dp"/>
+
     </LinearLayout>
 
 

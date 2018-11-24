@@ -177,8 +177,6 @@ public class EditUser extends AppCompatActivity implements View.OnClickListener 
     public void deleteUser() {
         final Integer idValue = SharedPref.getmIntances(this).getUSerID();
 
-
-
         progressDialog.setMessage("Deleting, please wait..");
         progressDialog.show();
 
@@ -266,11 +264,12 @@ public class EditUser extends AppCompatActivity implements View.OnClickListener 
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("id", String.valueOf(user_id));
+                params.put("id", String.valueOf(idValue));
                 params.put("username", usernameValue);
                 params.put("password", passwordValue);
                 params.put("email", emailValue);
                 params.put("phone", phoneValue);
+
 //                params.put("gender", genderValue);
 
                 return params;
