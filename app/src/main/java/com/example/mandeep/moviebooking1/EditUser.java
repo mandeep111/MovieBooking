@@ -243,8 +243,7 @@ public class EditUser extends AppCompatActivity implements View.OnClickListener 
                     JSONObject jsonObject = new JSONObject(response);
                     Toast.makeText(getApplicationContext(), jsonObject.getString("message"), Toast.LENGTH_LONG).show();
                     if(!jsonObject.getBoolean("error")){
-                        startActivity(new Intent(EditUser.this, LoginActivity.class));
-                        Toast.makeText(context, "Please login with new credentials", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(EditUser.this, HomeActivity.class));
                         finish();
                     }
 
